@@ -1,0 +1,8 @@
+chat_gpt:
+  urls:
+    ask: https://api.goapi.xyz/v1/chat/completions
+  success_codes:
+    - 200
+    - 201
+    - 202
+  model: gpt-3.5-turbo

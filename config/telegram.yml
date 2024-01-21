@@ -1,0 +1,65 @@
+messages:
+  welcome:  # This is the list of messages displayed on /start command. Supports multiple messages
+    - |
+      This bot offers a pathway to excel in English, enabling you to:
+      - Achieve C1/C2 CEFR proficiency in English through engaging debates and role-playing activities
+      
+      - Efficiently prepare for discussions on specific subjects
+      
+      - Identify the key areas to focus on with your teacher to expedite your English learning
+    - "Please select the scenario to learn English:"  # Keep in mind that the last message (Not matter what it is) will be followed with dialogue buttons
+  provide_topics: Do you want to generate topics for discussions or provide your topic?  # This do NOT support multi messages. Buttons will be added here
+  select_topic: Please, select topic
+  provide_position: Please, provide your debate position with voice message
+  provide_topic: Please, provide your topic
+  topic_accepted: Generating response. Please, wait
+buttons:
+  generate_topics: Generate Topics
+  provide_topic: Provide topic
+
+
+requests:
+  start_role_play:
+    prompt: |  # WARNING: DO NOT REMOVE {}. It will be replaced with topic name
+      We are in role-play conversation. I will provide topic and you create situation and act it with me. Your words are first!
+      Our topic is:
+      {}
+    rules: | # It is not recommended to change this at any point!
+      Important!
+      Do not say something like: "Okay! I understand. (... conversation ...)". Instead, ride away say your first phrase without any markers. Just phrase
+      Follow every phrase with role name. For example: Manager: Hi guys!
+      You should provide only one person`s phrase, unless its necessary to engage other people in discussion. Do not make entire text too long! In most cases, provide only one person`s one phrase.
+      Make dialogue the way that i can response easily to your phrase. Do not make it non-questionable, if its not necessary
+  start_debate:
+    prompt: | # WARNING: DO NOT REMOVE {0} and {1}. It will be replaced with user opinion and topic name accordingly
+      We are in debate conversation. I will provide my position and you will answer with opposite arguments. 
+      Our topic is:
+      {0}
+      My opinion is:
+      {1}
+    rules: | # It is not recommended to change this at any point!
+      Important!
+      Do not say something like: "Okay! I understand. (... conversation ...)". Instead, ride away say your first phrase without any markers. Just phrase
+
+scenarios:
+  debate:  # This name should be unique. It is system-used only.
+    name: "Debate"  # Button name
+    user_first: yes  # Should user provide first sentence after selecting topic? If no, chatGPT will start the conversation itself
+    request_name: start_debate  # It connected with requests table. Manages Chat GPT Responses
+    request:
+      prompt: |
+        Provide 10 topics for Debate English learning. 7 topics should be business-related, 3 - general
+      rules: |  # It is not recommended to change this at any point!
+        Important!
+        Return in format of python list only with no other text, your response should be serializable with python eval() function to create list
+
+  roleplay:  # This name should be unique. It is system-used only.
+    name: "Role-play"  # Button name
+    user_first: no  # Should user provide first sentence after selecting topic? If no, chatGPT will start the conversation itself
+    request_name: start_role_play  # It connected with requests table. Manages Chat GPT Responses
+    request:
+      prompt: |
+        Provide 10 topics for Role-play English learning. 7 topics should be business-related, 3 - general
+      rules: |  # It is not recommended to change this at any point!
+        Important!
+        Return in format of python list only with no other text, your response should be serializable with python eval() function to create list

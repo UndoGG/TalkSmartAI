@@ -1,0 +1,11 @@
+{
+    "connections": {
+        "default": "sqlite://database.db"
+    },
+    "apps": {
+        "models": {
+            "models": ["models.users", "models.conversations", "models.promises"],
+            "default_connection": "default"
+        }
+    }
+}

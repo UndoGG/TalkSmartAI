@@ -10,6 +10,7 @@ class ConversationsModel(Model):
     text: str = fields.TextField()
     role: enums.SpeakerRoleEnum = fields.CharEnumField(enums.SpeakerRoleEnum)
     created_at: datetime = fields.DatetimeField(auto_now_add=True)
+    closed: bool = fields.BooleanField(default=False)
 
     class Meta:
         table = 'conversations'

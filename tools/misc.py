@@ -8,6 +8,18 @@ import aiohttp
 import aiofiles
 import asyncio
 
+from logging_engine import get_logger
+
+logger = get_logger()
+
+
+async def delete_after(path, countdown: int):
+    await asyncio.sleep(countdown)
+    try:
+        logger.info(f'[bold cyan]Deleting {path}')
+    except Exception:
+        logger.exception(f'[red]Unable to auto-delete {path}')
+
 
 def format_seconds(seconds, translator):
     if seconds < 0:

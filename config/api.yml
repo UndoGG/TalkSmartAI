@@ -1,8 +1,21 @@
 chat_gpt:
+  timeout: 30 # in seconds. API Timeout
   urls:
     ask: https://api.goapi.xyz/v1/chat/completions
   success_codes:
     - 200
     - 201
     - 202
-  model: gpt-3.5-turbo
+openai:
+  timeout: 240 # in seconds. API Timeout
+  voice: echo  # See voices at https://platform.openai.com/docs/guides/text-to-speech
+  tts-model: tts-1  # It is not recommended to change this
+  gpt-model: gpt-3.5-turbo-0613
+  urls:
+    stt: https://api.openai.com/v1/audio/transcriptions
+    tts: https://api.openai.com/v1/audio/speech
+    gpt: https://api.openai.com/v1/chat/completions
+  success_codes:
+    - 200
+    - 201
+    - 202

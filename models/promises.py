@@ -9,6 +9,7 @@ class PromisesModel(Model):
     user = fields.ForeignKeyField('models.UsersModel')
     type = fields.CharEnumField(enums.PromiseTypeEnum)
     scenario_name = fields.TextField()
+    topic = fields.TextField(null=True)
 
     class Meta:
         table = 'promises'

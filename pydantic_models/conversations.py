@@ -11,6 +11,12 @@ class Conversation(BaseModel):
     text: str
     role: enums.SpeakerRoleEnum
     created_at: datetime
+    closed: Optional[bool] = False
+
+
+class ConversationHistory(BaseModel):
+    message: str
+    role: str
 
 
 class ConversationForm(BaseModel):

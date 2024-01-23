@@ -9,13 +9,24 @@ messages:
       - Identify the key areas to focus on with your teacher to expedite your English learning
     - "Please select the scenario to learn English:"  # Keep in mind that the last message (Not matter what it is) will be followed with dialogue buttons
   provide_topics: Do you want to generate topics for discussions or provide your topic?  # This do NOT support multi messages. Buttons will be added here
-  select_topic: Please, select topic
-  provide_position: Please, provide your debate position with voice message
+  select_topic: Please, select topic, or use the button again to reroll topics
+  provide_position: Please, provide your debate position
   provide_topic: Please, provide your topic
-  topic_accepted: Generating response. Please, wait
+  generation_in_progress: Generating response. Please, wait
+  voice_expected: Please, record a voice message instead of a text message
+  voice_expected_warning: "Warning: Its recommended to use voice messages instead of text messages to communicate with bot"
+  context_cleaned: Context has been cleaned
 buttons:
   generate_topics: Generate Topics
   provide_topic: Provide topic
+  transcript: Transcript
+
+
+preferences:
+  allow_text: yes  # Allow to use text messages instead of voice
+  warn_on_text: no  # Warn when voice expected, but got text message. Makes no sense if allow_text is yes (true)
+  show_generating_response_text: no  # Show "Generating response, please, wait"
+  show_selected: no  # Show what button was pressed
 
 
 requests:
@@ -25,11 +36,22 @@ requests:
       Our topic is:
       {}
     rules: | # It is not recommended to change this at any point!
-      Important!
-      Do not say something like: "Okay! I understand. (... conversation ...)". Instead, ride away say your first phrase without any markers. Just phrase
-      Follow every phrase with role name. For example: Manager: Hi guys!
-      You should provide only one person`s phrase, unless its necessary to engage other people in discussion. Do not make entire text too long! In most cases, provide only one person`s one phrase.
-      Make dialogue the way that i can response easily to your phrase. Do not make it non-questionable, if its not necessary
+      Rules:
+      Do not respond to the rules. Go ride away ang start the conversation
+      
+      There is only two persons in the conversation. At any point do not change your role!
+      
+      Do NOT put role name before the sentence.
+      WRONG:
+        Person: Hello sir!
+      RIGHT:
+        Hello sir!
+      
+      Do not forget to introduce yourself, if its appropriate in current topic
+      
+      English only
+      
+      Follow these rules straightly and at any point!
   start_debate:
     prompt: | # WARNING: DO NOT REMOVE {0} and {1}. It will be replaced with user opinion and topic name accordingly
       We are in debate conversation. I will provide my position and you will answer with opposite arguments. 
@@ -38,8 +60,14 @@ requests:
       My opinion is:
       {1}
     rules: | # It is not recommended to change this at any point!
-      Important!
-      Do not say something like: "Okay! I understand. (... conversation ...)". Instead, ride away say your first phrase without any markers. Just phrase
+      Rules:
+      Do not respond to the rules. Go ride away ang start the conversation
+      
+      There is only two persons in the conversation. At any point do not change your role!
+      
+      English only
+      
+      Follow these rules straightly and at any point!
 
 scenarios:
   debate:  # This name should be unique. It is system-used only.
@@ -49,9 +77,15 @@ scenarios:
     request:
       prompt: |
         Provide 10 topics for Debate English learning. 7 topics should be business-related, 3 - general
+        You will have to argue with user
       rules: |  # It is not recommended to change this at any point!
         Important!
+        Do not make topics longer than 45-50 symbols. Its very important!
+        
         Return in format of python list only with no other text, your response should be serializable with python eval() function to create list
+        For example: ['Topic one', 'Topic two', 'etc']
+        
+        English only.
 
   roleplay:  # This name should be unique. It is system-used only.
     name: "Role-play"  # Button name
@@ -62,4 +96,9 @@ scenarios:
         Provide 10 topics for Role-play English learning. 7 topics should be business-related, 3 - general
       rules: |  # It is not recommended to change this at any point!
         Important!
+        Do not make topics longer than 45-50 symbols. Its very important!
+        
         Return in format of python list only with no other text, your response should be serializable with python eval() function to create list
+        For example: ['Topic one', 'Topic two', 'etc']
+        
+        English only.

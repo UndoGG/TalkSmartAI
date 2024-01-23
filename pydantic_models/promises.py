@@ -10,9 +10,11 @@ class Promise(BaseModel):
     user_id: int
     type: enums.PromiseTypeEnum
     scenario_name: str
+    topic: Optional[str] = None
 
 
 class PromiseForm(BaseModel):
     user_id: int
     type: enums.PromiseTypeEnum
     scenario_name: str
+    topic: Optional[str] = None

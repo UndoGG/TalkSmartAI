@@ -12,11 +12,13 @@ class ConfigTypeEnum(Enum):
 
 class PromiseTypeEnum(Enum):
     PROVIDE_TOPIC = 'Provide topic'
+    PROVIDE_OPINION = 'Provide opinion'
 
 
 class SpeakerRoleEnum(Enum):
-    USER = 'User'
-    ASSISTANT = 'Assistant'
+    USER = 'user'
+    ASSISTANT = 'assistant'
+    SYSTEM = 'system'
 
 
 class GetByEnum(Enum):

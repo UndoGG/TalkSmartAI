@@ -1,2 +1,5 @@
 .idea/
 .env
+database.db
+database.db-shm
+database.db-wal

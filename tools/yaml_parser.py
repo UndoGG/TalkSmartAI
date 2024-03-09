@@ -39,7 +39,7 @@ def edit_yaml_file(file_name, new_value, *path):
         file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), file_name)
 
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             data = yaml.safe_load(f)
 
         current_dict = data
@@ -51,7 +51,7 @@ def edit_yaml_file(file_name, new_value, *path):
         current_dict[path[-1]] = new_value
 
         with open(file_path, 'w', encoding='utf-8') as f:
-            yaml.dump(data, f, default_flow_style=False, encoding='utf-8')
+            yaml.dump(data, f, encoding='utf-8')
     except FileNotFoundError:
         logger.error(f'Файл {file_path} не найден!')
     except PermissionError:

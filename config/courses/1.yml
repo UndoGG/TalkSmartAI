@@ -1,0 +1,62 @@
+blocks:
+  1:  # INTEGERS ONLY!
+      # SHOULD BE ASCENDING, STARTING FROM 1!
+
+    display_name: Старт
+    steps:
+      1:  # INTEGERS ONLY!
+          # SHOULD BE ASCENDING, STARTING FROM 1!
+        text: |
+          Первый шаг блока 1 курса из файла 1.yml!
+        continue_text: Следующий шаг
+        protect: yes  # Should telegram block resending and downloading content of the message
+      2:
+        # Text is removed here
+        video:
+          filename: video.mp4
+          caption: Второй шаг. Тестируем размещение видео. Здесь нет текста, только видео!
+        protect: yes
+        continue_text: Следующий шаг
+      3:
+        text: |
+          Третий шаг. Тестируем размещение файлов. Тут файл отдельным сообщением. Так же отсутствует caption
+        document:
+          filename: tz.pdf  # Filename in "docs" folder
+        protect: yes
+        continue_text: Следующий шаг
+      4:
+        photo:
+          filename: photo.png  # Filename in "photos" folder
+          caption: |
+            Четвёртый шаг. Тестируем размещение фото
+        protect: yes
+        continue_text: Следующий шаг
+      5:
+        continue_text: Завершить блок курса
+        protect: no
+        document:
+          filename: tz.pdf
+          caption: |
+            Пятый шаг. Всё и вместе!
+            Заметьте, что здесь выключен параметр protect и контент можно скачивать и пересылать.
+        video:
+          filename: video.mp4
+          caption: |
+            Пятый шаг. Всё и вместе!
+            Заметьте, что здесь выключен параметр protect и контент можно скачивать и пересылать.
+        photo:
+          filename: photo.png
+          caption: |
+            Пятый шаг. Всё и вместе!
+            Заметьте, что здесь выключен параметр protect и контент можно скачивать и пересылать.
+        block_last: yes  # if yes, user will be redirected to main after clicking the button
+  2:
+    display_name: Финиш
+    steps:
+      1:
+        text: |
+          Спасибо за прохождение курса!
+          Надеемся, что вы достигнете своей цели!
+        continue_text: Завершить курс
+        protect: yes
+        last: yes  # If yes, course will end after clicking the button

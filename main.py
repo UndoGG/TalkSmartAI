@@ -11,7 +11,7 @@ from hooks import router
 from dotenv import load_dotenv
 
 
-config = yaml_parser.read_yaml_file(os.path.join("config", "global.yml"))
+config = yaml_parser.read_yaml_file(os.path.join("config", "bot.yml"))
 logger = logging_engine.start_logger(config['log_level']['global'])
 
 logger.info("[bold cyan]Starting up...")

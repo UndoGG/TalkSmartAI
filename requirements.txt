@@ -6,3 +6,4 @@ click
 aiohttp
 pyyaml
 python-dotenv
+pytube

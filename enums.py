@@ -6,22 +6,13 @@ class AccessEnum(Enum):
     ADMIN = 'Administrator'
 
 
-class ConfigTypeEnum(Enum):
-    TELEGRAM = 'Telegram'
-
-
-class PromiseTypeEnum(Enum):
-    PROVIDE_TOPIC = 'Provide topic'
-    PROVIDE_OPINION = 'Provide opinion'
-
-
-class SpeakerRoleEnum(Enum):
-    USER = 'user'
-    ASSISTANT = 'assistant'
-    SYSTEM = 'system'
-
-
 class GetByEnum(Enum):
     ID = 'ID'
     TELEGRAM_ID = 'TELEGRAM_ID'
     USER_ID = 'USER_ID'
+
+
+class InvoiceInternalStatusEnum(Enum):
+    CREATED = 'Created'
+    SUCCESS = 'Success'
+    EXPIRED = 'Expired'

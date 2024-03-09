@@ -4,7 +4,7 @@
     },
     "apps": {
         "models": {
-            "models": ["models.users", "models.conversations", "models.promises"],
+            "models": ["models.users", "models.user_courses", "models.invoices"],
             "default_connection": "default"
         }
     }

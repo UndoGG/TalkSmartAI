@@ -1,0 +1,72 @@
+courses:
+  course1:  # Course name. Unique. Try to set it as short as possible to exclude errors!
+    # WARNING 2: DO NOT CHANGE COURSE ID AT ANY POINT! User`s owned courses stored in database by its name!
+      # If you change it, users may lose their access!
+
+    display_name: Революция Стройности
+    price: 100  # Technical price for creating an invoice. Integers only
+    display_price: 100 RUB # Price, what will be displayed to user in button name
+
+    welcome:
+      - phrase1:
+          text: |
+            То, чему вы можете научитесь в этом курсе, перевернет
+            ваше представление об избыточном весе и правильной
+            стратегии борьбы с ним. Вы сможете прекратить вечную
+            борьбу с весом и постоянные диеты со взвешиванием, и
+            обрести постоянную стройность.
+            Вы узнаете самую современную и научно обоснованную
+            информацию и точно будете знать, что сработает с вами.
+          last: no  # If yes, bot will request payment after this message
+          continue_button_text: Дальше  # Obvious
+      - phrase2:
+          text: |
+            Зная как сегодня люди заняты и как важно важную
+            информацию укладывать в короткие посылы, мы сделали
+            БАЗОВЫЙ мини-курс о стройности, который доступный и по
+            времени, и по стоимости, вы можете пройти его очень
+            быстро и по стоимости, всего 10 $.
+            Даже если сейчас вы проходите другой курс по снижению
+            веса - обязательно пройдите наш БАЗОВЫЙ курс, это
+            убережет вас от ошибок.
+          last: no
+          continue_button_text: Идём дальше?
+      - phrase3:
+          text: |
+            Посмотрите короткое в котором Мирон Шакира расскажет вам о курсе.
+          video:
+            filename: video.mp4  # Video should be in "videos" folder
+            caption: |
+              Хотите изменить свое тело на всегда и победить избыточный вес. Пройдите
+              этот мини курс, после просмотра данного курса вы станете победителем
+              избыточного веса
+          last: yes
+
+    final_buttons:  # Buttons, what will be displayed after last phrase
+      - button1:
+          name: Оплатить курс
+          payed_alt: Пройти курс  # Shows if user already bought this course. Available only on payment button type
+          type: payment  # Auto proceed payment
+      - button2: # UNIQUE!
+          name: Вип-программа
+          type: text  # Response with text
+          text: |
+            Вы можете связаться с нашим менеджером: @user_name
+      - button3: # UNIQUE!
+          name: Консультация
+          type: text
+          text: |
+            Вы можете связаться с нашим менеджером: @user_name
+      - button4: # UNIQUE!
+          name: Об авторах
+          type: text
+          text: |
+            Женя допили сюда плиз текст про нас и что мы сделали итд.
+      - button5: # UNIQUE!
+          name: Задать вопрос
+          type: text
+          text: |
+            Вы можете связаться с нашим менеджером: @user_name
+
+    logic_file_name: "1.yml"  #  File name in config/courses folder
+    enable_back_button: yes  # Should be showed back button on this course

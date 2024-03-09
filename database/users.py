@@ -1,9 +1,10 @@
+from typing import List
+
 from models.users import UsersModel
 from pydantic_models.users import UserForm, User
 from database.serializer import tortoise_to_pydantic
 from logging_engine import get_logger
 from enums import *
-
 
 logger = get_logger()
 
@@ -15,6 +16,10 @@ class UserManagement:
         return await UsersModel.create(**user.model_dump())
 
     @staticmethod
+    async def get_all() -> List[User]:
+        return [tortoise_to_pydantic(i, User) for i in await UsersModel.all()]
+
+    @staticmethod
     async def edit(user_id: int, **kwargs) -> None:
         user = await UsersModel.get_or_none(id=user_id)
         if not user:
@@ -23,7 +28,7 @@ class UserManagement:
         await user.update_from_dict(kwargs).save()
 
     @staticmethod
-    async def get(id: int, by: GetByEnum = GetByEnum.ID, create_user: UserForm = False) -> User  | None:
+    async def get(id: int, by: GetByEnum = GetByEnum.ID, create_user: UserForm = False) -> User | None:
         user = None
         if by in [GetByEnum.ID, GetByEnum.USER_ID]:
             user = await UsersModel.get_or_none(id=id)

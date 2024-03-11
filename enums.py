@@ -6,6 +6,26 @@ class AccessEnum(Enum):
     ADMIN = 'Administrator'
 
 
+<<<<<<< Updated upstream
+=======
+class ConfigTypeEnum(Enum):
+    TELEGRAM = 'Telegram'
+
+
+class PromiseTypeEnum(Enum):
+    PROVIDE_TOPIC = 'Provide topic'
+    PROVIDE_OPINION = 'Provide opinion'
+    UPLOAD_FILE = 'Upload file'
+
+
+class SpeakerRoleEnum(Enum):
+    USER = 'user'
+    ASSISTANT = 'assistant'
+    SYSTEM = 'system'
+    RATE = 'rate'
+
+
+>>>>>>> Stashed changes
 class GetByEnum(Enum):
     ID = 'ID'
     TELEGRAM_ID = 'TELEGRAM_ID'

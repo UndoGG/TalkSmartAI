@@ -1,0 +1,27 @@
+<<<<<<< Updated upstream
+=======
+openai:
+  gpt_timeout: 1 # In seconds. Chat GPT timeout
+  # Total timeout = timeout + prompt length in symbols
+  # Example:
+  # Prompt: Hi!
+  # base timeout: 15
+  # total timeout: 18 (len of "Hi!" is 3)
+
+  tts_timeout: 15 # In seconds.
+  # Same length system
+
+  stt_timeout: 25 # In seconds. IT DO NOT ADD TEXT LENGTH!
+
+  voice: echo  # See voices at https://platform.openai.com/docs/guides/text-to-speech
+  tts-model: tts-1  # It is not recommended to change this
+  gpt-model: gpt-3.5-turbo-0613
+  urls:
+    stt: https://api.openai.com/v1/audio/transcriptions
+    tts: https://api.openai.com/v1/audio/speech
+    gpt: https://api.openai.com/v1/chat/completions
+  success_codes:  # HTTP Codes NOT marked as errors
+    - 200
+    - 201
+    - 202
+>>>>>>> Stashed changes

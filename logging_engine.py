@@ -21,14 +21,3 @@ def start_logger(level) -> logging.Logger:
 def get_logger() -> logging.Logger:
     logger = logging.getLogger("rich")
     return logger
-
-
-def log_critical(message):
-    logger = get_logger()
-    logger.critical(f"""[bold red]
-                КРИТИЧЕСКАЯ ОШИБКА
-          ******************************
-          {message}
-          ******************************
-                КРИТИЧЕСКАЯ ОШИБКА
-          """)

@@ -1,17 +1,22 @@
 import os
 from aiogram import Bot
 from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+from dotenv import load_dotenv
+
 import enums
 from database.invoices import InvoiceManagement
+from engine.payment.main import PaymentEngine
 from engine.video import VideoHelper
 from logging_engine import get_logger
 from pydantic_models.invoices import InvoiceForm
+from pydantic_models.system.payment import PaymentAuth
 from pydantic_models.user_courses import UserCourseForm
 from pydantic_models.users import User
 from tools.yaml_parser import read_yaml_file
 from database.user_courses import UserCoursesManagement
 
 logger = get_logger()
+load_dotenv()
 
 
 class Course:
@@ -22,6 +27,11 @@ class Course:
         self.courses_config: dict = read_yaml_file(os.path.join('config', 'courses.yml'))
         if course_name:
             self.course_data = self.courses_config['courses'][course_name]
+        self.payment_engine = PaymentEngine(PaymentAuth(
+            merchant_login=os.environ.get('ROBOKASSA_MERCHANT_LOGIN'),
+            merchant_password_1=os.environ.get('ROBOKASSA_MERCHANT_PASSWORD_1'),
+            merchant_password_2=os.environ.get('ROBOKASSA_MERCHANT_PASSWORD_2'),
+        ))
         self.course_name = course_name
 
     async def welcome(self, msg: Message):
@@ -121,15 +131,20 @@ class Course:
             return await msg.reply(self.messages_config['buy_course_text'], reply_markup=inline, parse_mode='HTML')
 
     async def process_purchase(self, msg: Message):
-        internal_invoice_id = 'Dummy'  # TODO: Create invoice via Robokassa
-        invoice = await InvoiceManagement.create(InvoiceForm(user_id=self.user.id,
-                                                             invoice_id=internal_invoice_id,
-                                                             course_name=self.course_name))
+        cost = self.course_data['price']
+        invoice_data = self.payment_engine.generate_payment_link(cost,
+                                                                 f'Purchasing a {self.course_data["display_name"]} course',
+                                                                 is_test=os.environ.get('ROBOKASSA_TEST_MODE'))
+        internal_invoice_id = invoice_data[0]
+        url = invoice_data[1]
+        await InvoiceManagement.create(InvoiceForm(user_id=self.user.id,
+                                                   invoice_id=internal_invoice_id,
+                                                   course_name=self.course_name))
         await msg.edit_reply_markup()
         buttons = [
             [InlineKeyboardButton(
-                text=self.messages_config['check_invoice_button'],
-                callback_data=f"CHECK_{invoice.id}")]
+                text=self.messages_config['pay_button'],
+                url=url)]
         ]
 
         inline = InlineKeyboardMarkup(inline_keyboard=buttons)
@@ -137,31 +152,10 @@ class Course:
         return await msg.reply(self.messages_config['invoice_created_text'], parse_mode='HTML', reply_markup=inline)
 
     async def check_payment(self, msg: Message, invoice_internal_id: int):
-        invoice = await InvoiceManagement.get(id=invoice_internal_id)
-        if not invoice:
-            return await msg.reply(self.messages_config['unknown_invoice'])
-
-        status = enums.InvoiceInternalStatusEnum.SUCCESS  # TODO: Check invoice status
-        if status == enums.InvoiceInternalStatusEnum.EXPIRED:
-            return await msg.reply(self.messages_config['expired_invoice'])
-        if status == enums.InvoiceInternalStatusEnum.CREATED:
-            return await msg.reply(self.messages_config['created_invoice'])
-        if status == enums.InvoiceInternalStatusEnum.SUCCESS:
-            await UserCoursesManagement.create(UserCourseForm(user_id=self.user.id,
-                                                              course_name=invoice.course_name))
-            await InvoiceManagement.delete(invoice.id)
-            await msg.edit_reply_markup()
-
-            buttons = [
-                [InlineKeyboardButton(
-                    text=self.messages_config['start_course_button'],
-                    callback_data=f"START_{invoice.course_name}")]
-            ]
-
-            inline = InlineKeyboardMarkup(inline_keyboard=buttons)
-            return await msg.reply(self.messages_config['success_invoice'], reply_markup=inline)
-        else:
-            return await msg.reply(f'Неизвестный статус оплаты. Свяжитесь с администратором\n{status}')
+       """
+       Deprecated function
+       """
+       return
 
     async def show_main(self, msg: Message, last_block_id: int = None):
         logic_file_path = self.courses_config['courses'][self.course_name]['logic_file_name']
@@ -190,6 +184,10 @@ class Course:
         await msg.reply(self.messages_config['select_block'], reply_markup=inline)
 
     async def read(self, msg: Message, block_number: int, step_number: int, remove_buttons: bool = True):
+        user_courses = await UserCoursesManagement.get(id=self.user.id, by=enums.GetByEnum.USER_ID)
+        if self.course_name not in [i.course_name for i in user_courses]:
+            logger.error(f'[bold red]Access denied to course {self.course_name} for user {self.user.telegram_name} ({self.user.telegram_id}. 402')
+            return await msg.reply('Отказано в доступе')
         logic_file_path = self.courses_config['courses'][self.course_name]['logic_file_name']
 
         logic: dict = read_yaml_file(os.path.join('config', 'courses', logic_file_path))['blocks']

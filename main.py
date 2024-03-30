@@ -1,11 +1,16 @@
 import asyncio
 import logging
 import os
+
+from aiogram.client.default import DefaultBotProperties
 from tortoise import Tortoise
 import logging_engine
 from aiogram import Bot, Dispatcher
 from aiogram.enums.parse_mode import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
+
+from database.invoices import InvoiceManagement
+from enums import GetByEnum
 from tools import yaml_parser
 from hooks import router
 from dotenv import load_dotenv
@@ -42,7 +47,11 @@ async def main():
     await Tortoise.init(config_file='tortoise_config.json')
     await Tortoise.generate_schemas()
 
-    bot = Bot(token=TOKEN, parse_mode=ParseMode.HTML)
+    # print(await InvoiceManagement.get(id='877293052', by=GetByEnum.VALUE))
+
+    # return
+
+    bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode='HTML'))
     dp = Dispatcher(storage=MemoryStorage())
     dp.include_router(router)
     await bot.delete_webhook(drop_pending_updates=True)

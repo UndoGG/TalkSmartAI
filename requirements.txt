@@ -1,9 +1,0 @@
-tortoise-orm
-aiogram
-pydantic
-rich
-click
-aiohttp
-pyyaml
-python-dotenv
-pytube

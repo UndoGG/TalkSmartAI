@@ -16,6 +16,6 @@ class Invoice(BaseModel):
 
 class InvoiceForm(BaseModel):
     user_id: int
-    invoice_id: str
+    invoice_id: str | int
     course_name: str
     status: Optional[enums.InvoiceInternalStatusEnum] = enums.InvoiceInternalStatusEnum.CREATED

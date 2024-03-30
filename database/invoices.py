@@ -35,12 +35,14 @@ class InvoiceManagement:
         await invoice.delete()
 
     @staticmethod
-    async def get(id: int, by: GetByEnum = GetByEnum.ID) -> Invoice | None:
+    async def get(id: int | str, by: GetByEnum = GetByEnum.ID) -> Invoice | None:
         invoice = None
         if by == GetByEnum.ID:
             invoice = await InvoicesModel.get_or_none(id=id)
         if by == GetByEnum.USER_ID:
             invoice = await InvoicesModel.get_or_none(user_id=id)
+        if by == GetByEnum.VALUE:
+            invoice = await InvoicesModel.get_or_none(invoice_id=id)
         if by == GetByEnum.TELEGRAM_ID:
             raise TypeError('Telegram id search is not supported')
 

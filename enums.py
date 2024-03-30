@@ -30,9 +30,11 @@ class GetByEnum(Enum):
     ID = 'ID'
     TELEGRAM_ID = 'TELEGRAM_ID'
     USER_ID = 'USER_ID'
+    VALUE = 'VALUE'
 
 
 class InvoiceInternalStatusEnum(Enum):
     CREATED = 'Created'
+    FAILED = 'Failed'
     SUCCESS = 'Success'
     EXPIRED = 'Expired'
